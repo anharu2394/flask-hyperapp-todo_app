@@ -1,0 +1,65 @@
+import "babel-polyfill"
+import { h, app } from "hyperapp"
+import { withFx,http } from "@hyperapp/fx"
+import axios from "axios"
+//import apiActions from "hyperapp-axios"
+
+const setTODO = () => {
+     var json = []
+    const data =  axios.get("http://localhost:3333/api/todos").then(res => {
+        return res.data.todos
+    })
+    console.log(data)
+    return data
+}
+const state = {
+    todos: []
+}
+
+const actions = {
+    getTodo:  () => (state,actions) => {
+        const data =  axios.get("http://localhost:3333/api/todos").then(res => {
+            return res.data
+        })
+        console.log(data)
+        if (data) {
+            actions.setTodo(data.todos)
+        }
+    },
+    setTodo: data => state => {
+        console.log("will set")
+        return ({todos: data})
+    }
+}
+
+const Todos = () => (state, actions) => {
+//   actions.setTodos()
+   // state.todos = actions.setTodos
+    console.log(state.todos[0])
+    return (
+    <div>
+        <p>Hello</p>
+        {
+         state.todos.map((todo,i) => {
+             console.log(todo.value)
+             const a = "a"
+            return (
+             <div>
+                <p>{a}</p>
+            </div>
+           )
+        })
+        }
+        <button onclick={() => {console.log(actions.setTodos())}}>aa</button>
+    </div>
+)}
+const view = (state, actions) => {
+    console.log(state.todos)
+    if (state.todos.length == 0){
+        actions.getTodo()
+        console.log("OK")
+    }
+    return (<Todos />) 
+}
+
+app(state, actions, view, document.body)
