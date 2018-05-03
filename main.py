@@ -37,13 +37,10 @@ def deleteTodo(todo_id):
         print("failed to delete this todo.")
         return {"error": "failed to delete this todo."}
 
-def updateTodo(todo_id,update_thing):
+def updateTodo(todo_id,completed):
     try:
         todo = db.session.query(Todo).filter_by(id=todo_id).first()
-        if isinstance(update_thing,str):
-            todo.value = update_thing
-        else:
-            todo.completed = update_thing
+        todo.completed = completed
         db.session.add(todo)
         db.session.commit()
         return todo
