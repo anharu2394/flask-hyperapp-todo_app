@@ -1,6 +1,7 @@
 # The Todo App on Flask + Hyperapp
 
 webpackでビルドして、サーバーを起動
-’’’
-た
-’’’
+
+```
+yarn run webpack ; python main.py
+```
